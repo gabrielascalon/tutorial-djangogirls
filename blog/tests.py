@@ -38,10 +38,10 @@ class PostTestCase(LiveServerTestCase):
 
     def test_post_detail_draft_not_logged_in(self):
         post = Post(author=self.user,
-                    title = 'My title for draft not logged in test',
+                    title='My title for draft not logged in test',
                     text='test text')
         post.save()
-        url = reverse('post_detail', kwargs = {'pk': post.pk})
+        url = reverse('post_detail', kwargs={'pk': post.pk})
         response = self.client.get(url)
         self.assertTrue(response.status_code == 404)
 
@@ -51,7 +51,7 @@ class PostTestCase(LiveServerTestCase):
                     text='test text')
         post.save()
         login = self.client.force_login(self.user)
-        url = reverse('post_detail', kwargs = {'pk': post.pk})
+        url = reverse('post_detail', kwargs={'pk': post.pk})
         response = self.client.get(url)
         self.assertTrue(response.status_code == 200)
         self.assertTrue(post.title in str(response.content))
