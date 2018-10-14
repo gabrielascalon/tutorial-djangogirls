@@ -47,7 +47,7 @@ class PostTestCase(LiveServerTestCase):
 
     def test_post_detail_draft_logged_in(self):
         post = Post(author=self.user,
-                    title = 'My title for draft in logged in test',
+                    title='My title for draft in logged in test',
                     text='test text')
         post.save()
         login = self.client.force_login(self.user)
