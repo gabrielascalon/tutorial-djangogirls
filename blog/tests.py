@@ -142,7 +142,7 @@ class CommentTestCase(TestCase):
         self.client.force_login(self.user)
         url = reverse('post_detail', kwargs={'pk': self.post.pk})
         response = self.client.get(url)
-        self.assertTrue((comment.author in str(response.content)))
+        self.assertTrue(comment.author in str(response.content))
 
     def test_rejected_comment(self):
         comment = Comment(post=self.post,
