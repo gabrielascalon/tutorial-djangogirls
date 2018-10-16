@@ -7,3 +7,5 @@ db.sqlite3
 .DS_Store
 local_settings.py
 /staticfiles
+.coverage
+htmlcov/
