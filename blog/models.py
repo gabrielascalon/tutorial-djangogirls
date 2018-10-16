@@ -29,6 +29,9 @@ class Comment(models.Model):
         self.approved_comment = True
         self.save()
 
+    def remove(self):
+        self.delete()
+
     def __str__(self):
         return self.text
 
