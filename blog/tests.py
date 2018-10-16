@@ -80,15 +80,18 @@ class PostTestCase(TestCase):
 
     def test_edit_post_logged_in(self):
         post = Post(author=self.user,
-            title='This is the title for the edit while logged in test',
-            text='This is a text for the logged in edit test')
+                    title='This is the title for the edit while logged in test',
+                    text='This is a text for the logged in edit test')
         post.save()
         post.publish()
         self.client.force_login(self.user)
+        edited_post = {'title': 'This is the edited title',
+                       'text':'This is the edited text'}
         url = reverse('post_edit', kwargs={'pk': post.pk})
-        response = self.client.post(url, follow=True)
+        response = self.client.post(url, edited_post,
+                                    kwargs={'pk':post.pk}, follow=True)
         self.assertTrue(response.status_code == 200)
-        self.assertTrue(response.request['PATH_INFO'] == url)
+        self.assertTrue(edited_post['title'] in str(response.content))
 
     def test_delete_post(self):
         post = Post(author=self.user,
