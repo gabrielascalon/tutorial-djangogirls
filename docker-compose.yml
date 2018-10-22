@@ -1,0 +1,20 @@
+version: '3'
+services:
+  blog:
+    build: .
+    command: bash -c 'python3 manage.py migrate --noinput && python3 manage.py collectstatic --noinput && python3 manage.py runserver 0.0.0.0:8000'
+    ports:
+     - '8000:8000'
+    depends_on:
+      - db
+    links:
+      - db
+    volumes:
+      - .:/code
+  db:
+    image: "postgres:latest"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:
