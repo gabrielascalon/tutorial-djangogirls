@@ -1,4 +1,6 @@
 language: python 3.6.4
+before_install:
+  - pip install --upgrade pip
 install: pip install -r requirements.txt
 before_script:
   - psql -U postgres -c "create user test superuser password 'test'"
