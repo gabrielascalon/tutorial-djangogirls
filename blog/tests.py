@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 
 
 class PostTestCase(TestCase):
+
     def setUp(self):
         self.username = 'testuser'
         self.password = 'teste123'
@@ -20,7 +21,6 @@ class PostTestCase(TestCase):
         self.assertTrue(post.title not in str(response.content))
         post.publish()
         self.assertTrue(post.published_date != None)
-
 
     def test_post_list(self):
         post = Post(author=self.user,
@@ -61,16 +61,16 @@ class PostTestCase(TestCase):
         self.assertTrue(post.title in str(response.content))
 
     def test_publish_new_post(self):
-        data = {'title':'This is as test title for publishing',
-                'text':'Hello, this is a post for publish test'}
+        data = {'title': 'This is as test title for publishing',
+                'text': 'Hello, this is a post for publish test'}
         self.client.force_login(self.user)
         response = self.client.post(reverse('post_new'), data, follow=True)
         self.assertTrue(data['title'] in str(response.content))
 
     def test_edit_post_not_logged_in(self):
         post = Post(author=self.user,
-             title='This is the title for the edit while not logged in test',
-             text='This is a text for the not logged in edit test')
+                    title='This is the title for the edit while not logged in test',
+                    text='This is a text for the not logged in edit test')
         post.save()
         post.publish()
         url = reverse('post_edit', kwargs={'pk': post.pk})
@@ -86,10 +86,10 @@ class PostTestCase(TestCase):
         post.publish()
         self.client.force_login(self.user)
         edited_post = {'title': 'This is the edited title',
-                       'text':'This is the edited text'}
+                       'text': 'This is the edited text'}
         url = reverse('post_edit', kwargs={'pk': post.pk})
         response = self.client.post(url, edited_post,
-                                    kwargs={'pk':post.pk}, follow=True)
+                                    kwargs={'pk': post.pk}, follow=True)
         self.assertTrue(response.status_code == 200)
         self.assertTrue(edited_post['title'] in str(response.content))
 
@@ -106,6 +106,7 @@ class PostTestCase(TestCase):
         response = self.client.get(url)
         self.assertFalse(post.title in str(response.content))
 
+
 class CommentTestCase(TestCase):
 
     def setUp(self):
@@ -119,7 +120,6 @@ class CommentTestCase(TestCase):
                                         title=self.title,
                                         text=self.text)
         self.post.publish()
-
 
     def test_create_comment(self):
         comment = Comment(post=self.post,
@@ -145,12 +145,11 @@ class CommentTestCase(TestCase):
         self.assertTrue(comment.author in str(response.content))
 
     def test_rejected_comment(self):
-        comment = Comment(post=self.post,
-                          author='Test author rejected',
+        comment = Comment(post=self.post, author='Test author rejected',
                           text='This is a rejected comment')
         comment.save()
         self.client.force_login(self.user)
-        url = reverse('post_detail', kwargs={'pk' : self.post.pk})
+        url = reverse('post_detail', kwargs={'pk': self.post.pk})
         response = self.client.get(url)
         self.assertTrue(comment.author in str(response.content))
         comment.delete()
