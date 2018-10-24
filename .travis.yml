@@ -1,0 +1,13 @@
+language: python
+python:
+  - "3.6.4"
+install:
+  - pip install -r requirements.txt
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+before_script:
+  - ./manage.py collectstatic
+script:
+  - coverage run ./manage.py test --settings=mysite.test_settings
+after_success:
+  - coverage report
