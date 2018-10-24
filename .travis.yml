@@ -8,4 +8,6 @@ before_script:
 before_script:
   - ./manage.py collectstatic
 script:
-  - ./manage.py test --settings=mysite.test_settings
+  - coverage run ./manage.py test --settings=mysite.test_settings
+after_success:
+  - coverage report
