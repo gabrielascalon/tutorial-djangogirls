@@ -1,0 +1,12 @@
+language: python 3.6.4
+before_install:
+  - sudo apt-get install postgresql
+addons:
+  apt:
+    update: true
+install: pip install -r requirements.txt
+before_script:
+  - psql -U postgres -c "create user test superuser password 'test'"
+  - psql -U postgres -c "create database test_db owner test"
+
+script: ./manage.py tests --settings=test_settings.py
