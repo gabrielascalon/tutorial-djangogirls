@@ -1,9 +1,10 @@
-language: python 3.6.4
-before_install:
-  - pip install --upgrade pip
-install: pip install -r requirements.txt
+language: python
+python:
+  - "3.6.4"
+install:
+  - pip install -r requirements.txt
 before_script:
   - psql -U postgres -c "create user test superuser password 'test'"
   - psql -U postgres -c "create database test_db owner test"
-
-script: ./manage.py tests --settings=test_settings.py
+script:
+  - ./manage.py tests --settings=test_settings.py
