@@ -4,10 +4,8 @@ python:
 install:
   - pip install -r requirements.txt
 before_script:
-  - psql -U postgres -c "create user test superuser password 'test'"
-  - psql -U postgres -c "create database test_db owner test"
+  - psql -c 'create database travis_ci_test;' -U postgres
 before_script:
   - ./manage.py collectstatic
-
 script:
   - ./manage.py test --settings=mysite.test_settings
